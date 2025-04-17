@@ -1,4 +1,3 @@
-// src/ai/flows/generate-marketing-content.ts
 'use server';
 /**
  * @fileOverview Generates marketing content based on a prompt, image URL, and video URL.
@@ -15,6 +14,9 @@ const GenerateMarketingContentInputSchema = z.object({
   prompt: z.string().describe('The marketing prompt.'),
   imageUrl: z.string().optional().describe('The URL of the image.'),
   videoUrl: z.string().optional().describe('The URL of the video.'),
+  language: z.string().describe('The language of the marketing content.'),
+  length: z.string().describe('The length of the marketing content (Short, Medium, Long).'),
+  tone: z.string().describe('The tone of the marketing content (Informative, Enthusiastic, Humorous).'),
 });
 export type GenerateMarketingContentInput = z.infer<typeof GenerateMarketingContentInputSchema>;
 
@@ -34,6 +36,9 @@ const generateMarketingContentPrompt = ai.definePrompt({
       prompt: z.string().describe('The marketing prompt.'),
       imageUrl: z.string().optional().describe('The URL of the image.'),
       videoUrl: z.string().optional().describe('The URL of the video.'),
+      language: z.string().describe('The language of the marketing content.'),
+      length: z.string().describe('The length of the marketing content (Short, Medium, Long).'),
+      tone: z.string().describe('The tone of the marketing content (Informative, Enthusiastic, Humorous).'),
     }),
   },
   output: {
@@ -42,8 +47,8 @@ const generateMarketingContentPrompt = ai.definePrompt({
     }),
   },
   prompt: `You are an expert marketing content creator.
-
   Create marketing content based on the following prompt, image, and video.
+  The content should be in {{language}}, have a {{length}} length, and a {{tone}} tone.
 
   Prompt: {{{prompt}}}
   {{#if imageUrl}}

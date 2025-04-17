@@ -12,6 +12,7 @@ import {postToInstagram} from '@/services/instagram';
 import {toast} from '@/hooks/use-toast';
 import {cn} from '@/lib/utils';
 import {improveMarketingContent, ImproveMarketingContentInput} from '@/ai/flows/improve-marketing-content';
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from '@/components/ui/select';
 
 const placeholderImageUrl = 'https://picsum.photos/512/256';
 
@@ -24,6 +25,10 @@ export default function Home() {
 
   const [isImproving, setIsImproving] = useState<boolean>(false);
 
+  const [language, setLanguage] = useState<string>('English');
+  const [length, setLength] = useState<string>('Medium');
+  const [tone, setTone] = useState<string>('Informative');
+
   const handleGenerateContent = async () => {
     setIsGenerating(true);
     try {
@@ -31,6 +36,9 @@ export default function Home() {
         prompt,
         imageUrl: imageUrl === placeholderImageUrl ? undefined : imageUrl,
         videoUrl,
+        language,
+        length,
+        tone,
       };
 
       const result = await generateMarketingContent(input);
@@ -169,6 +177,56 @@ export default function Home() {
                 value={videoUrl}
                 onChange={(e) => setVideoUrl(e.target.value)}
               />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label htmlFor="language" className="block text-sm font-medium text-gray-700">
+                  Language
+                </label>
+                <Select value={language} onValueChange={setLanguage}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select a language"/>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="English">English</SelectItem>
+                    <SelectItem value="Vietnamese">Vietnamese</SelectItem>
+                    {/* Add more languages here */}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <label htmlFor="length" className="block text-sm font-medium text-gray-700">
+                  Length
+                </label>
+                <Select value={length} onValueChange={setLength}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select length"/>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Short">Short</SelectItem>
+                    <SelectItem value="Medium">Medium</SelectItem>
+                    <SelectItem value="Long">Long</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <label htmlFor="tone" className="block text-sm font-medium text-gray-700">
+                  Tone
+                </label>
+                <Select value={tone} onValueChange={setTone}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select tone"/>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Informative">Informative</SelectItem>
+                    <SelectItem value="Enthusiastic">Enthusiastic</SelectItem>
+                    <SelectItem value="Humorous">Humorous</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
           </div>
 
