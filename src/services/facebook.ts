@@ -27,5 +27,8 @@ export interface FacebookPost {
 export async function postToFacebook(post: FacebookPost): Promise<boolean> {
   // TODO: Implement this by calling the Facebook API.
   console.log('Simulating posting to Facebook:', post);
-  return true;
+  
+  // Simulate a successful post
+  await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate API delay
+  return Math.random() < 0.9; // Simulate success/failure
 }

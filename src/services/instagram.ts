@@ -27,5 +27,8 @@ export interface InstagramPost {
 export async function postToInstagram(post: InstagramPost): Promise<boolean> {
   // TODO: Implement this by calling the Instagram API.
   console.log('Simulating posting to Instagram:', post);
-  return true;
+
+  // Simulate a successful post
+  await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate API delay
+  return Math.random() < 0.9; // Simulate success/failure
 }
