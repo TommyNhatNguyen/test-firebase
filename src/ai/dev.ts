@@ -1,1 +1,2 @@
-// Flows will be imported for their side effects in this file.
+import '@/ai/flows/improve-marketing-content.ts';
+import '@/ai/flows/generate-marketing-content.ts';
